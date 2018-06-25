@@ -1,0 +1,9 @@
+D:\tmplate\SAM\Database\Ensley.Config\bin\Debug\Ensley.Config.dacpac
+D:\tmplate\SAM\Database\Ensley.Config\bin\Debug\SAM.Config.dll
+D:\tmplate\SAM\Database\Ensley.Config\bin\Debug\SAM.Config.pdb
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\SAM.Config.dll
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\SAM.Config.pdb
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\Model.xml
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\refactor.xml
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\postdeploy.sql
+D:\tmplate\SAM\Database\Ensley.Config\obj\Debug\predeploy.sql

@@ -1,0 +1,9 @@
+D:\tmplate\SAM\Database\SAM.Config\bin\Release\SAM.Config.dacpac
+D:\tmplate\SAM\Database\SAM.Config\bin\Release\SAM.Config.dll
+D:\tmplate\SAM\Database\SAM.Config\bin\Release\SAM.Config.pdb
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\Model.xml
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\refactor.xml
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\postdeploy.sql
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\predeploy.sql
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\SAM.Config.dll
+D:\tmplate\SAM\Database\SAM.Config\obj\Release\SAM.Config.pdb

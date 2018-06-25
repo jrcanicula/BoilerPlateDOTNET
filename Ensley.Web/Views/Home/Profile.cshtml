@@ -1,0 +1,177 @@
+﻿@{
+
+  var userId = ViewData["UserId"].ToString();
+
+}
+
+<style>
+  .valid {
+    color: green;
+  }
+
+  .invalid {
+    color: red;
+  }
+
+  span.k-widget.k-tooltip-validation {
+    display: inline-block;
+    width: 160px;
+    text-align: left;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+    box-shadow: none;
+    color: red;
+  }
+
+  .k-tooltip-validation .k-warning {
+    display: none;
+  }
+</style>
+
+<div id="dashboard-panel">
+  <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="profile_img">
+            <center>
+              <img id="img-profile" style="border-radius: 50%;" height="50" width="50" />
+              <input type="file" id="picture-file" class="upload-pic" />
+            </center>
+          </div>
+          <div class="profile_info">
+            <h3 id="user-profile-fullname"></h3>
+            <span id="user-profile-email"> </span>
+            @*<ul class="list-unstyled user_data">
+                  <li>
+                      <i class="fa fa-map-marker user-profile-icon"></i>
+                  </li>
+
+                  <li>
+                      <i class="fa fa-briefcase user-profile-icon"></i> <span id="user-profile-company"> </span>
+                  </li>*
+              </ul>*@
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 col-sm-9 col-xs-12">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div>
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active">
+                <a id="basic-info-tab" href="#basic-info" aria-controls="overview" role="tab" data-toggle="tab"><i class="far fa-user" aria-hidden="true"></i> Edit Basic Information</a>
+              </li>
+              <li role="presentation">
+                <a id="password-tab" href="#password-content" aria-controls="security" role="tab" data-toggle="tab"><i class="fa fa-key" aria-hidden="true"></i> Security </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div role="tabpanel" class='tab-pane active' id="basic-info">
+                <div class="col-md-6">
+                  <div class="row">
+                    <h4><span class="circle-num">1</span> Personal Details</h4>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">
+                      <label>First Name</label>
+                      <input name="" id="user-profile-edit-firstname" type="text" placeholder="Enter first name" maxlength="255" class="form-control" disabled />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Last Name</label>
+                      <input name="" id="user-profile-edit-lastname" type="text" placeholder="Enter Lasts name" maxlength="255" class="form-control" disabled />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Company Name</label>
+                      <input name="" type="text" placeholder="Enter company name" maxlength="255" class="form-control" value="Company Inc." />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Position</label>
+                      <input type="text" id="user-profile-edit-position" placeholder="Enter position" maxlength="255" name="user-profile-add-address" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Contact No.</label>
+                      <input type="text" id="user-profile-edit-contactno" placeholder="Enter Contact Number" maxlength="255" name="user-profile-add-address" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Email</label>
+                      <input name="" type="text" placeholder="Enter email" maxlength="255" class="form-control" value="superadmin@test.com" disabled id="user-profile-edit-email" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <button id="edit-user-profile" type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <h4><span class="circle-num">2</span> Address</h4>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <textarea id="user-profile-edit-address" placeholder="Enter address" maxlength="255" style="height:106px" name="user-profile-add-address" class="form-control"> </textarea>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label>Country</label>
+                      <select id="user-profile-edit-country" class="form-control" placeholder="Select Country" style="width: 100%;"></select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div role="tabpanel" class='tab-pane' id="password-content">
+
+                <form id="form-update-password" name="form-update-password" method="post" autocomplete="off">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input id="user-profile-edit-password" type="password" placeholder="Enter password" maxlength="255" name="user-profile-add-password" class="form-control" validationMessage="Password is required and must be at least 6 characters" pattern="\w{5}\w+" required />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input id="user-profile-edit-password-confirm" type="password" placeholder="Enter password" maxlength="255" name="user-profile-add-password-confirm" class="form-control" validationMessage="Confirm password is required and must be at least 6 characters" pattern="\w{5}\w+" required />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <button id="edit-user-password" type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  $(document).ready(function () {
+    var id = '@userId'
+    MyProfile.init(id);
+  });
+</script>

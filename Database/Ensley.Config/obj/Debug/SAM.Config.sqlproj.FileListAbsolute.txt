@@ -1,0 +1,5 @@
+D:\samprime\SAM\Database\SAM.Config\bin\Debug\SAM.Config.dacpac
+D:\samprime\SAM\Database\SAM.Config\bin\Debug\SAM.Config.dll
+D:\samprime\SAM\Database\SAM.Config\bin\Debug\SAM.Config.pdb
+D:\samprime\SAM\Database\SAM.Config\obj\Debug\SAM.Config.dll
+D:\samprime\SAM\Database\SAM.Config\obj\Debug\SAM.Config.pdb

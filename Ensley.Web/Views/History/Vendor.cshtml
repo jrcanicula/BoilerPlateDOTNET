@@ -1,0 +1,54 @@
+﻿@using System.Collections.Generic;
+
+@{
+  var VendorId = ViewData["Id"].ToString();
+}
+
+<div id="vendor-history-view">
+    <div class="form-group">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs history-tab" role="tablist">
+                <li role="presentation" class="active">
+                    <a id="vendor-history-tab" href="#vendor-history-tab-content" aria-controls="vendor-history" role="tab" data-toggle="tab"><i class="far fa-address-card" aria-hidden="true"></i> Vendor History</a>
+                </li>
+                <li role="presentation" id="vendor-contact-history-item">
+                    <a id="vendor-contact-history-tab" href="#vendor-contact-history-tab-content" aria-controls="vendor-contacts" role="tab" data-toggle="tab"><i class="far fa-list-alt" aria-hidden="true"></i> Contact History </a>
+                </li>
+
+                <li role="presentation" id="vendor-alert-history-item">
+                    <a id="vendor-alert-history-tab" href="#vendor-alert-history-tab-content" aria-controls="vendor-alerts" role="tab" data-toggle="tab"><i class="fas fa-exclamation" aria-hidden="true"></i> Alert History </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="tab-content">
+                        <div role="tabpanel" class='tab-pane active' id="vendor-history-tab-content">
+                            <div id="vendor-history-grid"></div>
+                        </div>
+
+                        <div role="tabpanel" class='tab-pane' id="vendor-contact-history-tab-content">
+                            <div id="vendor-contact-history-grid"></div>
+                        </div>
+
+                        <div role="tabpanel" class='tab-pane' id="vendor-alert-history-tab-content">
+
+                            <div id="vendor-alert-history-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var id = '@VendorId';
+       VendorHistoryNS.InitializeControl(id);
+    });
+</script>

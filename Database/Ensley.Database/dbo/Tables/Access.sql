@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Access]
+(
+  [AccessId] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+	[Category] NVARCHAR(100) NOT NULL,   
+  [Name] NVARCHAR(100) NOT NULL,    
+	[Description] NVARCHAR(max) NULL,    
+  [CreatedBy] UNIQUEIDENTIFIER NULL, 
+  [CreatedOn] DATETIME NULL, 
+  [ModifiedBy] UNIQUEIDENTIFIER NULL, 
+  [ModifiedOn] DATETIME NULL
+)
