@@ -1,0 +1,267 @@
+﻿@{
+    var contractId = ViewData["ContractId"] == null ? null : ViewData["ContractId"].ToString();
+}
+<div id="divMainContractInstance">
+    <div class="col-md-3" id="divContractType">
+        <div>
+            <div class="select-temp">
+                <div class="row">
+                    <div class="form-group" id="templateForm">
+                        <h5 for="lblSelectTemplate" style="margin-top:0px;">Contract Type</h5>
+                        <input id="drpContractTemplate" value="" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <h5>Sections </h5>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary btn-xs btn-spacing-add" title="Add new section" id="btnAddSection" data-target="#instance-section-create-popup">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="form-group">
+                    <div class="input-group advance-search">
+                        <input type="text" class="form-control" placeholder="Search section">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><i class="fas fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="list-wrapper">
+                    <ul id="sortableListLeft"></ul>
+                </div>
+                <div class="list-wrapper">
+                    <ul id="sortableListRight"></ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="tag-table">
+                <div class="row">
+                    <h5 class="pull-left">Contract Tags</h5>
+                    @*<div class="btn-spacing-add">
+                        <button type="button" class="btn btn-default btn-xs pull-left">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>*@
+                    <div class="clearfix"></div>
+                    @*<div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search tag">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><i class="fas fa-search"></i></button>
+                            </span>
+                        </div>
+                    </div>*@
+                    <div id="grdTags" class="no-tag-red"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="divSearch">
+            <div class="row">
+                <form class="form-inline">
+                    <div class="input-group pull-right advance-search">                        
+                        <div class="search-text-container">
+                            <input type="text" id="searchEditorText" class="form-control" placeholder="Search for..." style="width:260px;">
+                            <span id="search-result" class="search-result-text"></span>
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="btn-search-text" type="button"><i class="fas fa-search"></i></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" id="btnPreviewInstanceTemplate" value="Preview" />
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" id="btnCompareTemplate">Compare Versions</button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="button" id="btnToggleTagsValue">Toggle tags value</button>
+                </div>
+                <div class="form-group">
+                    <label id="lblVersion">Version </label>
+                </div>
+                <div class="form-group">
+                    <i id="lockIcon" class="glyphicon glyphicon-lock lock-ico"></i>
+                </div>
+                <div class="form-group pull-right">
+                    <label class="editor-note">To add a tag, click editor to show toolbar.</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="divEditorWrapper">
+            <div class="row">
+                <div id="editorWrapper">
+                    <div class="demo-section wide k-content">
+                        <div class="editor"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="modal fade" id="instance-section-create-popup" role="dialog" aria-labelledby="instance-section-create-answer">
+    <div class="modal-dialog" role="document" style="width:860px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="far fa-user"></i> Create section</h4>
+            </div>
+            <form id="form-section-create" name="form-section-create" method="post" action="#" autocomplete="on">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>Section Name</label>
+                                    <input id="section-add-name" name="section-add-name" type="text" placeholder="Enter section name" maxlength="30" class="form-control" required validationMessage="Section name is required" />
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>Order No.</label>
+                                    <input id="section-add-ordernum" class="form-control" type="number" min="0" step="1" name="section-add-ordernum" value="1" placeholder="Enter section ordernum" required validationMessage="Order number is required" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>Section Value</label>
+                                    <div id="editorWrapperAdd">
+                                        <textarea id="textAreaEditor" cols="30" rows="6" required validationMessage="Section value is required"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" type="submit" style="margin-right:0;" id="btnSaveSection">Save</button>
+                    <button type="button" id="section-user-dismiss" class="btn btn-sm btn-default" style="margin-right:0;" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="contract-change-type-popup" tabindex="-1" role="dialog" aria-labelledby="contract-change-type-answer">
+    <div class="modal-dialog" role="document" style="width:450px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="contract-change-close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2"><i class="fas fa-cube"></i> Contract Type Change</h4>
+            </div>
+            <div class="modal-body">
+                <div class="myTranslation">
+                    <p id="kb-delete-message">
+                        Are you sure you want to change the Contract Type? If Yes, it will remove the Contract Type/Section to this Contract.
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="change-contract-type" class="btn btn-primary"> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="contract-type-dismiss">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="contract-tag-create-popup" role="dialog" aria-labelledby="tag-add-answer" style="z-index: 11000;">
+    <div class="modal-dialog" role="document" style="width:420px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><i class="far fa-user"></i> Create Tag</h4>
+            </div>
+            <form id="form-contract-tag-create" name="form-contract-tag-create" method="post" action="#" autocomplete="on">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div>
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label>Tag Name:</label>
+                                <label id="contract-tag-name">
+                                    <strong><span></span></strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label>Data Type</label>
+                                        <div style="display:contents">
+                                            <input id="contract-tag-type" name="contract-tag-type" class="form-control" placeholder="Select data type" style="width: 100%; display:initial" validationMessage="Data type is required" required />
+                                            <span class="k-invalid-msg" data-for="tag-type"></span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div id="form-tag-text" class="form-group" style="display:none">
+                                        <label>Value</label>
+                                        <input id="contract-tag-value-text" placeholder="Enter the Tag Value" name="contract-tag-value" class="form-control" validationMessage="Tag Value is required" />
+                                    </div>
+                                    <div id="form-tag-datetime" class="form-group" style="display:none">
+                                        <label>Value</label>
+                                        <input id="contract-tag-value-datetime" style="width: 100%;" placeholder="Enter the Tag Value" name="contract-tag-value-datetime" class="form-control" validationMessage="Tag Value is required" />
+                                    </div>
+                                    <div id="form-tag-int" class="form-group" style="display:none">
+                                        <label>Value</label>
+                                        <input id="contract-tag-value-int" min="0" step="1" style="width: 100%; display: initial;" placeholder="Enter the Tag Value" name="contract-tag-value-int" class="form-control" validationMessage="Tag Value is required" />
+                                    </div>
+                                    <div id="form-tag-decimal" class="form-group" style="display:none">
+                                        <label>Value</label>
+                                        <input id="contract-tag-value-decimal" min="0" step="1" style="width: 100%;display: initial;" placeholder="Enter the Tag Value" name="contract-tag-value-decimal" class="form-control" validationMessage="Tag Value is required" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Color</label><br />
+                                        <input id="contract-tag-color" name="contract-tag-color" type="text" placeholder="Enter color" style="width: 100%;" class="form-control" required validationMessage="Color is required" />
+                                        <span class="k-invalid-msg" data-for="contract-tag-color"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" type="submit" style="margin-right:0;" id="btnContractSaveTag">Save</button>
+                    <button type="button" id="tag-user-dismiss" class="btn btn-sm btn-default" style="margin-right:0;" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <script>
+    $(document).ready(function () {
+        var contractId = '@contractId';
+        ContractEditorNS.init(contractId);
+    });
+        </script>
+
+

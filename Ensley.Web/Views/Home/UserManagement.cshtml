@@ -1,0 +1,636 @@
+﻿<div id="dashboard-panel">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a id="user-tab" href="#user" aria-controls="overview" role="tab" data-toggle="tab"><i class="far fa-user" aria-hidden="true"></i> User</a>
+            </li>
+            <li role="presentation">
+              <a id="role-tab" href="#role" aria-controls="overview" role="tab" data-toggle="tab"><i class="far fa-clipboard" aria-hidden="true"></i> Role </a>
+            </li>
+            <li role="presentation">
+              <a id="access-tab" href="#access" aria-controls="overview" role="tab" data-toggle="tab"><i class="fas fa-key"></i> Access</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class='tab-pane active' id="user">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="row btn-spacing">
+                      <div class="pull-left">
+                        <button id="add-user-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#user-create-popup" type="button"><i class="fa fa-plus"></i> Create </button>
+                        <button id="edit-user-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#user-edit-popup" type="button" disabled><i class="fa fa-edit"></i> Edit </button>
+                        <button id="delete-user-popup" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#user-delete-popup" type="button" disabled><i class="fa fa-trash"></i> Delete </button>
+                      </div>
+                    </div>
+                    <div id="user-grid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div role="tabpanel" class='tab-pane' id="role">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="row btn-spacing">
+                      <div class="pull-left">
+                        <button id="add-role-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#role-create-popup" type="button"><i class="fa fa-plus"></i> Create </button>
+                        <button id="edit-role-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#role-edit-popup" type="button" disabled><i class="fa fa-edit"></i> Edit </button>
+                        <button id="delete-role-popup" class="btn btn-danger btn-xs " data-toggle="modal" data-target="#role-delete-popup" type="button" disabled><i class="fa fa-trash"></i> Delete </button>
+                      </div>
+                    </div>
+                    <div id="role-grid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div role="tabpanel" class='tab-pane' id="access">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="row btn-spacing">
+                      <div class="pull-left">
+                        <button id="add-access-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#access-create-popup" type="button"><i class="fa fa-plus"></i> Create </button>
+                        <button id="edit-access-popup" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#access-edit-popup" type="button" disabled><i class="fa fa-edit"></i> Edit </button>
+                        <button id="delete-access-popup" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#access-delete-popup" type="button" disabled><i class="fa fa-trash"></i> Delete </button>
+                      </div>
+                    </div>
+                    <div id="access-grid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="access-create-popup" tabindex="-1" role="dialog" aria-labelledby="access-add-answer">
+  <div class="modal-dialog" role="document" style="width:450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fas fa-key"></i> Create Access</h4>
+      </div>
+      <form id="form-access-create" name="form-access-create" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name</label>
+            <input id="access-add-name" placeholder="Enter the Name" name="access-add-name" maxlength="40" class="form-control" validationMessage="Name is required" required />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="access-add-description" placeholder="Enter the Description" maxlength="200" name="access-add-orderNo" class="form-control"> </textarea>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input id="access-add-category" name="access-add-category" maxlength="25" placeholder="Enter the Category" class="form-control" validationMessage="Category is required" required />
+          </div>
+          <div class="form-group">
+            <label>Is Active?</label>
+            <input type="checkbox" id="access-add-isactive" class="is-active-check" />
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="save-access-dismiss" class="btn btn-sm btn-primary" style="margin-right:0;" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-sm btn-primary" style="margin-right:0;" id="save-access">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="access-edit-popup" tabindex="-1" role="dialog" aria-labelledby="access-edit-answer">
+  <div class="modal-dialog" role="document" style="width:450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel1"><i class="fas fa-key"></i> Edit Access</h4>
+      </div>
+      <form id="form-access-edit" name="form-access-edit" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Name</label>
+            <input id="access-edit-name" maxlength="40" name="access-edit-name" placeholder="Enter the Name" class="form-control" required validationMessage="Name is required" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="access-edit-description" maxlength="200" placeholder="Enter the Description" class="form-control"> </textarea>
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input id="access-edit-category" name="access-edit-category" placeholder="Enter the Category" class="form-control" maxlength="25" validationMessage="Category is required" required />
+          </div>
+          <div class="form-group">
+            <label>Is Active?</label>
+            <input type="checkbox" id="access-edit-isactive" class="is-active-check" />
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" style="margin-right:0" id="edit-access-dismiss" data-dismiss="modal">Cancel</button>
+            <button id="edit-access" type="submit" class="btn btn-sm btn-primary" style="margin-right:0">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="access-delete-popup" tabindex="-1" role="dialog" aria-labelledby="access-delete-answer">
+  <div class="modal-dialog" role="document" style="width:450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2"><i class="fas fa-key"></i> Delete Access</h4>
+      </div>
+      <div class="modal-body">
+        <div class="myTranslation">
+          <p id="kb-delete-message">
+            Are you sure you want to delete this Access?
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" style="margin-right:0" data-dismiss="modal" id="delete-access-dismiss">Cancel</button>
+          <button id="delete-access" class="btn btn-sm btn-primary" style="margin-right:0">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="user-create-popup" role="dialog" aria-labelledby="user-add-answer">
+  <div class="modal-dialog" role="document" style="width:860px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="far fa-user"></i> Create user</h4>
+      </div>
+      <form id="form-user-create" name="form-user-create" method="post" action="#" autocomplete="on">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="">
+            <div class="col-md-12">
+              <div class="row">
+                <h4><span class="circle-num">1</span> General Role - Please fill up the below</h4>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input id="user-add-firstname" name="user-add-firstname" type="text" placeholder="Enter first name" maxlength="30" class="form-control" required validationMessage="First name is required" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input id="user-add-lastname" name="user-add-lastname" type="text" placeholder="Enter  last name" maxlength="30" class="form-control" required validationMessage="Last name is required" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input id="user-add-email" name="user-add-email" type="email" placeholder="Enter the email" maxlength="50" class="form-control" validationMessage="Email is required and should be valid" required />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Contact No.</label>
+                  <input type="text" id="user-add-contactno" placeholder="Enter Contact Number" maxlength="20" name="user-add-address" class="form-control" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Company</label>
+                  <select id="user-add-companyid" name="user-add-companyid" class="form-control" validationMessage="Company is Required" required></select>
+                </div>
+                <div class="form-group">
+                  <label>Position</label>
+                  <input type="text" id="user-add-position" placeholder="Enter position" maxlength="50" name="user-add-address" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Address</label>
+                  <textarea id="user-add-address" placeholder="Enter address" maxlength="350" style="height:106px;" name="user-add-address" class="form-control"> </textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Country</label>
+                  <select id="user-add-country" name="user-add-country" class="form-control" placeholder="Select Country" style="width: 100%;" data-required-msg="Country is required"  required></select>
+                  <span class="k-invalid-msg" data-for="user-add-country"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Is Active?</label>
+                  <input type="checkbox" id="user-add-isactive" class="is-active-check" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6"></div>
+          </div>
+          <hr />
+          <div class="">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="form-group">
+                  <table>
+                    <tr>
+                      <td>
+                        <h4><span class="circle-num">2</span> Assign Roles</h4>
+                      </td>
+                      <td></td>
+                      <td>
+                        <h4>Selected Roles</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width:45%">
+                        <div id="add-available-role-mapping-grid"></div>
+                      </td>
+                      <td style="vertical-align:middle">
+                        <center>
+                          <button class="btn btn-sm" id="add-mapped-role-to-available" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button>
+                          <button class="btn btn-sm" id="add-available-role-to-selected" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                        </center>
+                      </td>
+                      <td style="width:45%">
+                        <div id="add-selected-role-mapping-grid"></div>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="save-user-dismiss" class="btn btn-sm btn-primary" style="margin-right:0;" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-sm btn-primary" type="submit" style="margin-right:0;" id="save-user">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="user-edit-popup" tabindex="-1" role="dialog" aria-labelledby="user-edit-answer">
+  <div class="modal-dialog" role="document" style="width:860px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel1"><i class="far fa-user"></i> Edit User</h4>
+      </div>
+      <form id="form-user-edit" name="form-user-edit" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <h4><span class="circle-num">1</span> General Information - Please fill up the below</h4>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>First Name</label>
+                  <input id="user-edit-firstname" name="user-edit-firstname" type="text" placeholder="Enter first name" maxlength="30" class="form-control" validationMessage="First name is required" required />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Last Name</label>
+                  <input id="user-edit-lastname" name="user-edit-lastname" type="text" placeholder="Enter last name" maxlength="30" class="form-control" validationMessage="Last name is required" required />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input id="user-edit-email" type="email" name="user-edit-email" placeholder="Enter the email" maxlength="50" class="form-control" validationMessage="Email is required and should be valid" required />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Contact No.</label>
+                  <input type="text" id="user-edit-contactno" placeholder="Enter Contact Number" maxlength="20" name="user-edit-contactno" class="form-control" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Company</label>
+                  <select id="user-edit-companyid" name="user-edit-companyid" class="form-control" required validationMessage="Company is Required"></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Position</label>
+                  <input type="text" id="user-edit-position" placeholder="Enter position" maxlength="50" name="user-edit-positiom" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="form-group">
+                  <label>Address</label>
+                  <textarea id="user-edit-address" placeholder="Enter address" maxlength="350" style="height:106px;" name="user-edit-address" class="form-control"> </textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Country</label>
+                  <select id="user-edit-country" name="user-edit-country" class="form-control" placeholder="Select Country" style="width: 100%;" validationMessage="Country is Required"  data-required-msg="Country is required"   required></select>
+                  <span class="k-invalid-msg" data-for="user-edit-country"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label>Is Active?</label>
+                  <input type="checkbox" id="user-edit-isactive" class="is-active-check" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+          </div>
+          <hr />
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <table>
+                  <tr>
+                    <td>
+                      <h4><span class="circle-num">2</span> Assign Roles</h4>
+                    </td>
+                    <td></td>
+                    <td>
+                      <h4>Selected Roles</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width:45%">
+                      <div id="edit-available-role-mapping-grid"></div>
+                    </td>
+                    <td style="vertical-align:middle">
+                      <center>
+                        <button class="btn btn-sm" id="edit-mapped-role-to-available" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button>
+                        <button class="btn btn-sm" id="edit-available-role-to-selected" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                      </center>
+                    </td>
+                    <td style="width:45%">
+                      <div id="edit-selected-role-mapping-grid"></div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" style="margin-right:0;" id="edit-user-dismiss" data-dismiss="modal">Cancel</button>
+            <button id="edit-user" type="submit" class="btn btn-sm btn-primary"> Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="user-delete-popup" tabindex="-1" role="dialog" aria-labelledby="user-delete-answer">
+  <div class="modal-dialog" role="document" style="width:450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2"><i class="far fa-user"></i> Delete User </h4>
+      </div>
+      <div class="modal-body">
+        <div class="myTranslation">
+          <p id="kb-delete-message">
+            Are you sure you want to delete this user?
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" style="margin-right:0" data-dismiss="modal" id="delete-user-dismiss">Cancel</button>
+          <button id="delete-user" class="btn btn-sm btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="role-create-popup" role="dialog" aria-labelledby="role-add-answer">
+  <div class="modal-dialog" role="document" style="width:860px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="far fa-clipboard"></i> Create role</h4>
+      </div>
+      <form id="form-role-create" name="form-role-create" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <h4><span class="circle-num">1</span> General Information  - Please fill up the below</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Name</label>
+                <input id="role-add-name" name="role-add-name" maxlength="40" placeholder="Enter the Name" validationMessage="Name is required" class="form-control" required />
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="role-add-description" placeholder="Enter the Description" class="form-control" maxlength="200"> </textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Is Active?</label>
+                <input type="checkbox" id="role-add-isactive" class="is-active-check" />
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <table>
+                  <tr>
+                    <td>
+                      <h4><span class="circle-num">2</span> Assign Access</h4>
+                    </td>
+                    <td></td>
+                    <td>
+                      <h4>Selected Access</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width:45%">
+                      <div id="add-available-access-mapping-grid"></div>
+                    </td>
+                    <td style="vertical-align:middle">
+                      <center>
+                        <button class="btn btn-sm" id="add-mapped-access-to-available" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button>
+                        <button class="btn btn-sm" id="add-available-access-to-selected" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                      </center>
+                    </td>
+                    <td style="width:45%">
+                      <div id="add-selected-access-mapping-grid"></div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="save-role-dismiss" class="btn btn-sm btn-primary" style="margin-right:0;" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-sm btn-primary" type="submit" style="margin-right:0;" id="save-role">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="role-edit-popup" role="dialog" aria-labelledby="role-edit-answer">
+  <div class="modal-dialog" role="document" style="width:860px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel1"><i class="far fa-clipboard"></i> Edit Role</h4>
+      </div>
+      <form id="form-role-edit" name="form-role-edit" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <h4><span class="circle-num">1</span> General Information  - Please fill up the below</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Name</label>
+                <input id="role-edit-name" maxlength="40" placeholder="Enter the Name" validationMessage="Name is required" name="role-add-edit" class="form-control" required />
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="role-edit-description" maxlength="200" placeholder="Enter the Description" class="form-control"> </textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group">
+                <label>Is Active?</label>
+                <input type="checkbox" id="role-edit-isactive" class="is-active-check" />
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div class="col-md-12">
+            <div class="row">
+              <div class="form-group">
+                <table>
+                  <tr>
+                    <td>
+                      <h4><span class="circle-num">2</span> Assign Access</h4>
+                    </td>
+                    <td></td>
+                    <td>
+                      <h4>Selected Access</h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width:45%">
+                      <div id="edit-available-access-mapping-grid"></div>
+                    </td>
+                    <td style="vertical-align:middle">
+                      <center>
+                        <button class="btn btn-sm" id="edit-mapped-access-to-available" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></button>
+                        <button class="btn btn-sm" id="edit-available-access-to-selected" style="margin-left:5px;"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></button>
+                      </center>
+                    </td>
+                    <td style="width:45%">
+                      <div id="edit-selected-access-mapping-grid"></div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-primary" id="edit-role-dismiss" style="margin-right:0" data-dismiss="modal">Cancel</button>
+            <button id="edit-role" type="submit" class="btn btn-sm btn-primary" style="margin-right:0">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="role-delete-popup" tabindex="-1" role="dialog" aria-labelledby="role-delete-answer">
+  <div class="modal-dialog" role="document" style="width:450px">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2"><i class="far fa-clipboard"></i> Delete Role </h4>
+      </div>
+      <div class="modal-body">
+        <div class="myTranslation">
+          <p id="kb-delete-message">
+            Are you sure you want to delete this role?
+          </p>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" style="margin-right:0" data-dismiss="modal" id="delete-role-dismiss">Cancel</button>
+          <button id="delete-role" class="btn btn-sm btn-primary" style="margin-right:0">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    UserManagementNS.init();
+    RoleManagementNS.init();
+    AccessManagementNS.init();
+  });
+</script>

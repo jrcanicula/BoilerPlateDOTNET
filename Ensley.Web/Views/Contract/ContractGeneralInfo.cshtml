@@ -1,0 +1,230 @@
+﻿@{
+  var vendorId = ViewData["VendorId"].ToString();
+  var contractId = ViewData["ContractId"] == null ? null : ViewData["ContractId"].ToString();
+  var isClient = bool.Parse(ViewData["IsClient"].ToString());
+  var contractStatus = ViewData["ContractStatus"] == null ? 0 : int.Parse(ViewData["ContractStatus"].ToString());
+  var contractVersion = ViewData["ContractVersion"] == null ? 0 : int.Parse(ViewData["ContractVersion"].ToString());
+}
+
+<div class="col-md-2" style="padding:0px;">
+  <ul class="nav nav-stacked" role="tablist">
+    <li role="presentation" class="active" id="contract-details-menu">
+      <a id="contract-details-tab" href="#contract-details-content" aria-controls="info" role="tab" data-toggle="tab">
+        <i class="far fa-address-card" aria-hidden="true"></i>
+        <span>Details</span>
+      </a>
+    </li>
+    <li role="presentation" id="contract-permission-menu" class="disabled">
+      <a id="contract-permission-tab" href="#contract-permission-content" aria-controls="info" role="tab" data-toggle="tab">
+        <i class="far fa-list-alt" aria-hidden="true"></i>
+        <span>Permissions</span>
+      </a>
+    </li>
+    <li role="presentation" id="contract-alert-menu" class="disabled">
+      <a id="contract-alert-tab" href="#contract-alert-content" aria-controls="info" role="tab" data-toggle="tab">
+        <i class="fas fa-exclamation" aria-hidden="true"></i>
+        <span>Alerts</span>
+      </a>
+    </li>
+    <li role="presentation" id="contract-history-menu" class="disabled">
+      <a id="contract-history-tab" href="#contract-history-content" aria-controls="info" role="tab" data-toggle="tab">
+        <i class="fas fa-history" aria-hidden="true"></i>
+        <span>History</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="col-md-10" style="padding:15px; border: 1px solid #e5e5e5; border-radius: 0 4px 4px 4px;">
+  <div class="tab-content tab-content-inner">
+    <div role="tabpanel" class='tab-pane active' id="contract-details-content">
+      <form id="form-contract-details" name="form-vendor" method="post" action="#" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div style="font-weight:bolder; font-size: 26px; margin-bottom: -8px;" id="contract-details-company"></div>
+                @if (isClient)
+                {
+                  <label id="isVendor">Vendor</label>
+                }
+                else
+                {
+                  <label id="isVendor">Client</label>
+                }
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Title</label>
+                <input id="contractPermissionTitle" name="contractPermissionTitle" type="text" placeholder="Enter title" maxlength="50" class="form-control" required validationMessage="Contract Title is required" />
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <label>Start Date</label>
+                      <input type="text" data-role='datepicker' id="contractDetailsStartDate" name="contractDetailsStartDate" validationMessage="Start Date is required" required />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <label>End Date</label>
+                      <input type="text" data-role='datepicker' id="contractDetailsEndDate" name="contractDetailsEndDate" data-type="date" validationMessage="End Date is required" data-greaterdate-field="contractDetailsStartDate" data-greaterdate-msg='End date is not valid' required />
+                      <span data-for='contractDetailsEndDate' class='k-invalid-msg'></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" style="display:block">
+                <label>Location</label>
+                <select id="contractDetailsCountry" name="contractDetailsCountry" class="form-control" placeholder="Select Country" style="width: 100%;" validationMessage="Country is Required" required></select>
+                <span class="k-invalid-msg" data-for="contracctDetailsCountry"></span>
+              </div>
+              <div class="clearfix"></div>
+              <div class="form-group">
+                <label>Vendor Entity</label>
+                <input id="contractVendorEntity" name="contractVendorEntity" type="text" placeholder="Enter Vendor Entity" maxlength="50" class="form-control" required validationMessage="Vendor Entity is required" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="contractDetailsDescription" name="contractDetailsDescription" class="form-control" style="height:254px" rows="3" maxlength="300" required validationMessage="Description is required"></textarea>
+              </div>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          
+          @if (contractId != null)
+          {
+            if (contractStatus == 1 && (contractVersion == 1 || contractVersion == 0))
+            {
+              <button id="btnDeleteContract" type="submit" class="btn btn-danger pull-left">Delete</button>
+            }
+            else
+            {
+              <button id="btnDeleteContract" type="submit" class="btn btn-danger pull-left" disabled>Delete</button>
+            }
+
+            if (contractStatus == 2 || contractStatus == 7)
+            {
+              <button id="btnCancelContract" type="submit" class="btn btn-primary pull-left">Cancel</button>
+            }
+          }
+          else
+          {
+            <button id="btnDeleteContract" type="submit" class="btn btn-danger pull-left" style="display:none">Delete</button>
+          }
+
+            <button id="save-vendor-general-info" type="submit" class="btn btn-primary pull-left">Save</button>
+        </div>
+      </form>
+    </div>
+    <div role="tabpanel" class='tab-pane' id="contract-permission-content">
+      <div class="panel-body">
+        <div id="contact-list">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <select id="contract-permission-users" placeholder="Type to Search" style="width:263px;"></select>
+              </div>
+              <div class="clearfix"></div>
+              <div class="form-group">
+                <div id="contact-permission-grid"></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button id="update-contract-permissions" type="submit" class="btn btn-primary pull-left">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class='tab-pane' id="contract-alert-content">
+      <form id="form-contract-alert" name="form-vendor" method="post" action="#" autocomplete="off">
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="form-inline">
+                  <div class="form-group">
+                    <label class="w-215">Alert when expired days before  &nbsp;</label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="isContractAlertBeforeDaysExpired" value="option1" disabled>
+                    </label>
+                    <input type="text" class="form-control" id="contractAlertBeforeDaysExpiredEmails" placeholder="Email(s) comma separated">
+                  </div>
+                  <div class="form-group">
+                    <label>Days</label>
+                    <input type="number" class="form-control" id="contractAlertBeforeDaysExpiredDays" min="1" value="1" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="form-inline">
+                  <div class="form-group">
+                    <label class="w-215">Alert when contract expired  &nbsp;</label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="isContractAlertWhenExpired" value="option1" disabled>
+                    </label>
+                    <input type="text" class="form-control" id="contractAlertWhenExpiredEmails" placeholder="Email(s) comma separated">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <div class="form-inline">
+                  <div class="form-group">
+                    <label class="w-215">Alert when new contact are included  &nbsp;</label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" id="isAlertWhenNewContactAreIncluded" value="option1" disabled>
+                    </label>
+                    <input type="text" class="form-control" id="alertWhenNewContactAreIncludedEmails" placeholder="Email(s) comma separated">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button id="update-contract-alerts" type="submit" class="btn btn-primary pull-left">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div role="tabpanel" class='tab-pane' id="contract-history-content">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="contract-history-content-pane">
+
+            </div>
+            <input type="hidden" id="history-hidden" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="clearfix"></div>
+<script>
+    $(document).ready(function () {
+      var vendorId = '@vendorId';
+      var contractId = '@contractId';
+      ContractGeneralInformationNS.InitializeControl(vendorId, contractId);
+    });
+</script>

@@ -1,0 +1,5 @@
+D:\tmplate\SAM\Database\Ensley.Database\bin\Debug\Ensley.Database.dacpac
+D:\tmplate\SAM\Database\Ensley.Database\obj\Debug\Ensley.Database.dll
+D:\tmplate\SAM\Database\Ensley.Database\obj\Debug\Ensley.Database.pdb
+D:\tmplate\SAM\Database\Ensley.Database\bin\Debug\Ensley.Database.dll
+D:\tmplate\SAM\Database\Ensley.Database\bin\Debug\Ensley.Database.pdb

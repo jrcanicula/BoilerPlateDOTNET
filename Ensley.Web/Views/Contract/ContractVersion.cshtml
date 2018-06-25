@@ -1,0 +1,188 @@
+﻿@{
+    var userId = ViewData["UserId"].ToString();
+    var contractId = ViewData["ContractId"].ToString();
+    var contractTemplateId = ViewData["ContractTemplateId"].ToString();
+    //var currentDocVersion = ViewData["CurrentDocVersion"].ToString();
+    //var currentDocText = ViewData["CurrentDoc"].ToString();
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9;IE=10,IE=11;IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/fonts.googleapis/ptsans.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/font-awesome/font-awesome-5/js/fontawesome-all.js"></script>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+    <environment names="Production">
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <link href="~/lib/kendo-ui/kendo-items/kendo.common-material.min.css" rel="stylesheet" />
+    <link href="~/lib/kendo-ui/kendo-items/kendo.material.min.css" rel="stylesheet" />
+    <link href="~/lib/kendo-ui/kendo-items/kendo.material.mobile.min.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/google-diff-match-patch/diff_match_patch.js"></script>
+    <script src="~/lib/kendo-ui/js/kendo.all.js"></script>
+    <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.js"></script>
+</head>
+<body class="compare-body">
+    <div id="compare-title" class="compare-top">
+        <h3><span></span></h3>
+    </div>
+    <div class="compare-panel">
+        <div class="compare-left">
+            <div id="compare-left-label">
+                <label>Current Document: </label>
+               <strong><span></span></strong>
+            </div>
+            <div id="currentDoc-panel" class="compare-text">
+                <div id="currentDoc">
+                </div>
+            </div>
+        </div>
+        <div class="compare-right">
+            <div>
+                <label>Compare Document</label>
+                <input id="compareDocVersion" />
+            </div>
+            <div id="compareDoc-panel" class="compare-text">
+                <div id="compareDoc">
+                </div>
+            </div>
+        </div>
+        <br style="clear:both;" />
+    </div>
+    <div class="history-panel">
+        <div id="historyGrid"></div>
+    </div>
+</body>
+</html>
+
+<!-- TO DO: To Separte JS -->
+<script type="text/javascript">
+    var dmp = new diff_match_patch();
+    var contractId = '@contractId';
+    var contractTemplateId = '@contractTemplateId';
+
+    $(document).ready(function () {
+
+        $("#compareDocVersion").kendoDropDownList({
+            dataTextField: "versionText",
+            dataValueField: "version",
+            dataSource: {
+                transport: {
+                    read: {
+                        dataType: "json",
+                        url: '../api/contract/contractVersions/' + contractId
+                    }
+                }
+            },
+            dataBound: loadCompareDoc,
+            change: loadCompareDoc,
+            index: 0
+        });
+
+        $("#historyGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "../api/contract/contractHistoryList?contractId=" + contractId,
+                        dataType: "json"
+                    }
+                },
+                pageSize: 20,
+                serverPaging: true,
+                serverSorting: true
+            },
+            sortable: true,
+            pageable: true,
+            filterable: true,
+            dataBound: function () {
+            },
+            columns: [
+                {
+                    field: "version",
+                    title: "Version",
+                    filterable: false
+                },
+                {
+                    field: "modifiedBy",
+                    title: "Modified By",
+                    filterable: false
+                },
+                {
+                    field: "modifiedDate",
+                    title: "Modified Date",
+                    filterable: false,
+                    template: '#= kendo.toString(kendo.parseDate(modifiedDate), "MM/dd/yyyy")#'
+                },
+                {
+                    field: "status",
+                    title: "Status",
+                    filterable: false
+                },
+                {
+                    field: "notes",
+                    title: "Notes",
+                    filterable: false
+                }
+            ]
+        });
+    });
+
+    function compare() {
+        var text1 = document.getElementById('currentDoc').innerHTML;
+        var text2 = document.getElementById('compareDoc').innerHTML;
+        dmp.Diff_EditCost = 8;
+
+        var d = dmp.diff_main(text1, text2);
+        dmp.diff_cleanupEfficiency(d);
+        var currentDoc = "", compareDoc = "";
+        for (var i = 0, j = d.length; i < j; i++) {
+            var arr = d[i];
+            if (arr[0] == 0) {
+                currentDoc += arr[1];
+                compareDoc += arr[1];
+            } else if (arr[0] == -1) {
+                currentDoc += "<span class='compare-text-del'>" + arr[1] + "</span>";
+            } else {
+                compareDoc += "<span class='compare-text-add'>" + arr[1] + "</span>";
+            }
+        }
+        document.getElementById('currentDoc').innerHTML = currentDoc;
+        document.getElementById('compareDoc').innerHTML = compareDoc;
+    }
+
+    function loadCompareDoc() {
+        $.ajax({
+            url: '../api/contract/contractVersion?contractId=' + contractId + '&contractTemplateId=' + contractTemplateId + '&version=' + $("#compareDocVersion").val(),
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, textStatus, XMLHttpRequest) {
+                $("#compare-title span").text(data.title);
+                $("#compare-left-label span").text(data.version);
+                $("#currentDoc").html(decodeURI(data.current));
+                $("#compareDoc").html(decodeURI(data.compare));
+                compare();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            }
+        })
+    }
+
+    $('#currentDoc-panel').on('scroll', function () {
+        $('#compareDoc-panel').scrollTop($(this).scrollTop());
+    });
+
+    $('#compareDoc-panel').on('scroll', function () {
+        $('#currentDoc-panel').scrollTop($(this).scrollTop());
+    });
+</script>
